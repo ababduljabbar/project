@@ -16,11 +16,13 @@ use App\Http\Controllers\AuthController;
 */
 
 
+Route::prefix('/admin')->controller(AdminController::class)->middleware('admin')->group(function () {
+    Route::get('admin/dashboard', 'index')->name('admin.dashboard')->middleware('auth');
 
-Route::get('admin/dashboard',[AdminController::class, 'index'])->name('admin.dashboard')->middleware ('auth');
+    Route::get('admin/profile', 'profile')->name('admin.profile');
+    Route::post('admin/profile/create', 'profile')->name('profile.create');
+});
 
-Route::get('admin/profile',[AdminController::class, 'profile'])->name('admin.profile')->middleware ('auth');
-Route::post('admin/profile/create',[AdminController::class, 'profile'])->name('profile.create')->middleware ('auth');
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('create-login', [AuthController::class, 'createLogin'])->name('create.login');
@@ -29,4 +31,3 @@ Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('create-register', [AuthController::class, 'createRegister'])->name('create.register');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-
