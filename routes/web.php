@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +16,28 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+// Admin Controller With Middleware Auth
+Route::prefix('/admin')->middleware('auth')->group(function () {
+     //Dashboard
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+     //Profile Route
+    Route::controller(ProfileController::class)->group(function () { 
 
-Route::prefix('/admin')->controller(AdminController::class)->middleware('admin')->group(function () {
-    Route::get('admin/dashboard', 'index')->name('admin.dashboard')->middleware('auth');
+        Route::match(['get', 'post'], '/profile', 'profile')->name('admin.profile');
 
-    Route::get('admin/profile', 'profile')->name('admin.profile');
-    Route::post('admin/profile/create', 'profile')->name('profile.create');
+    });
+
 });
 
+// Login And Register Route
+Route::controller(AuthController::class)->group(function () { 
 
-Route::get('/', [AuthController::class, 'index'])->name('login');
-Route::post('create-login', [AuthController::class, 'createLogin'])->name('create.login');
+    Route::match(['get', 'post'], '/', 'login')->name('login');
+    Route::match(['get', 'post'], '/register', 'register')->name('register');
+    Route::get('/logout', 'logout')->name('logout');
 
-Route::get('register', [AuthController::class, 'register'])->name('register');
-Route::post('create-register', [AuthController::class, 'createRegister'])->name('create.register');
+});
 
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+ 
+ 
+ 

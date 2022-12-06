@@ -1,5 +1,5 @@
 @extends('frontEnd.master')
-@section('title','Login Page Email Send')
+@section('title','Login')
 @section('content')
 
 
@@ -18,15 +18,13 @@
     </div>
 
     @endif
-    <div class="login-logo">
-      <a href="#"><b>Email Send</b>Project</a>
-    </div>
+     
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
   
-        <form method="POST" action="{{ route('create.login') }}" >
+        <form method="POST" action="{{ route('login') }}" >
             @csrf
 
           <div class="input-group mb-3">
@@ -36,10 +34,10 @@
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
-            @error('email')
-            <span class="text-danger">{{ $message }}</span>
-            @enderror
           </div>
+          @error('email')
+          <span class="text-danger">{{ $message }}</span>
+          @enderror
           <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
             <div class="input-group-append">
@@ -47,10 +45,10 @@
                 <span class="fas fa-lock"></span>
               </div>
             </div>
-            @error('password')
-            <span class="text-danger">{{ $message }}</span>
-            @enderror
           </div>
+          @error('password')
+          <span class="text-danger">{{ $message }}</span>
+          @enderror
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">

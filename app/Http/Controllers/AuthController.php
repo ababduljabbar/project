@@ -4,84 +4,105 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Hash;
-use Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
 {
-    public function index()
-    { 
-        if(Auth::user()){
-            return redirect()->route('admin.dashboard');
-        }else{
-            return view('frontEnd.auth.login');
-        }
-       
-    }  
-      
-    public function createLogin(Request $request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-   
-        $credentials = $request->only('email', 'password');
+    
+    // Login Function
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('admin.dashboard')
-                        ->withSuccess('Signed in');
-        }
+    public function login(Request $request)
+    {
+
+        // check request method
+        if ($request->isMethod('post')) {
+
+            //  Login Validation
+
+            $request->validate([
+               'email' => 'required|email',
+               'password' => 'required',
+            ]);
+
+            //Login User
+
+           $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials)) {
+               return redirect()->route('admin.dashboard')
+                     ->withSuccess('Signed in');
+             }
   
-        return redirect()->route('login')->with('danger','Login details are not valid');
-    }
-
-    public function register()
-    {
-       
-        if(Auth::user()){
-            return redirect()->route('admin.dashboard');
-        }else{
-            return view('frontEnd.auth.register');
+          return redirect()->route('login')->with('danger','Login details are not valid');
+        
         }
+        else{
+            // Login Or Dashboard Show
+            if(Auth::user()){
+                //Dashboard Page Show
+                return redirect()->route('admin.dashboard');
+
+            }else{
+                // Login Page Show
+                return view('frontEnd.auth.login');
+
+            }
+       }
+       
     }
       
-    public function createRegister(Request $request)
+    //Register Function
+    public function register(Request $request)
     {  
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
-            'password' => 'required|min:6',
-            'password_confirmation' => 'required_with:password|same:password|min:6',
-            'terms' =>'required'
+        // check request method
+        if ($request->isMethod('post')) {
 
+            // Register Input Validation
 
-        ]);
-           
-        $data = $request->all();
-        $check = $this->create($data);
-         
-        return redirect()->route('login')->with('success','Accout Create Successfully');
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6',
+                'password_confirmation' => 'required_with:password|same:password|min:6',
+                'terms' =>'required'
+            ]);
+
+             // Register User
+
+            $user = new User;
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+             
+            return redirect()->route('login')->with('success','Accout Create Successfully');
+        
+        }else{
+
+             // Register Show Or Dashboard Show
+            if(Auth::user()){
+
+                 // Dashboard Show
+                return redirect()->route('admin.dashboard');
+
+            }else{
+
+                 // Register Show
+                return view('frontEnd.auth.register');
+
+            }
+        }    
+     
     }
-
-    public function create(array $data)
-    {
-      return User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'username' => $data['username'],
-        'password' => Hash::make($data['password'])
-      ]);
-    }    
-    
-    
+      
+    // Log Out Function
     public function logout() {
-        Session::flush();
+
         Auth::logout();
-  
         return redirect()->route('login');
+
     }
 }
