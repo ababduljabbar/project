@@ -36,7 +36,7 @@
                    
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" name="number" value="" class="form-control" placeholder="phone number" value="{{ Auth::user()->number }}"></div>
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" name="number"  class="form-control" placeholder="phone number" value="{{ Auth::user()->number }}"></div>
                     <div class="col-md-12"><label class="labels">Address</label><input type="text" name="address"  class="form-control" placeholder="enter address" value="{{ Auth::user()->address }}"></div>
                     <div class="col-md-12"><label class="labels">Website</label><input type="text" name="website"  class="form-control" placeholder="enter website" value="{{ Auth::user()->website }}"></div>
                     <div class="col-md-12"><label class="labels">Postcode</label><input type="text" name="postcode"  class="form-control" placeholder="enter postcode" value="{{ Auth::user()->postcode }}"></div>
