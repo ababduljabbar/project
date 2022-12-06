@@ -15,21 +15,18 @@ use App\Http\Controllers\AuthController;
 |
 */
 
- 
+
 
 Route::get('admin/dashboard',[AdminController::class, 'index'])->name('admin.dashboard')->middleware ('auth');
 
- 
 Route::get('admin/profile',[AdminController::class, 'profile'])->name('admin.profile')->middleware ('auth');
-
-Route::post('admin/profile/create',[AdminController::class, 'profileCreate'])->name('profile.create')->middleware ('auth');
-
+Route::post('admin/profile/create',[AdminController::class, 'profile'])->name('profile.create')->middleware ('auth');
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
-Route::post('create-login', [AuthController::class, 'createLogin'])->name('create.login'); 
+Route::post('create-login', [AuthController::class, 'createLogin'])->name('create.login');
 
 Route::get('register', [AuthController::class, 'register'])->name('register');
-Route::post('create-register', [AuthController::class, 'createRegister'])->name('create.register'); 
+Route::post('create-register', [AuthController::class, 'createRegister'])->name('create.register');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
