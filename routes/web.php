@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +30,32 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::match(['get', 'post'], '/profile', 'profile')->name('admin.profile');
 
     });
+  //Brand Route
+    Route::controller(BrandController::class)->group(function () { 
+   
+        Route::get('/brand', 'brand')->name('admin.brand');
+        Route::match(['get', 'post'], '/brand/create', 'create')->name('brand.create');
+        Route::match(['get', 'post'], '/brand/edit/{id}', 'update')->name('brand.update');
+        Route::get('/brand/delete/{id}', 'delete')->name('brand.delete');
+
+    });
+
+      //Category Route
+      Route::controller(CategoryController::class)->group(function () { 
+   
+        Route::get('/category', 'category')->name('admin.category');
+        Route::match(['get', 'post'], '/category/create', 'create')->name('category.create');
+
+    });
+
+    //Product Route
+    Route::controller(ProductController::class)->group(function () { 
+   
+        Route::get('/product', 'product')->name('admin.product');
+        Route::match(['get', 'post'], '/product/create', 'create')->name('product.create');
+    
+    });
+
 
 });
 

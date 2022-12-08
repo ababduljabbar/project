@@ -49,6 +49,7 @@ class ProfileController extends Controller
  
             }
              else {
+                
                 // show profile page
                 return view('admin.pages.profile');
          
