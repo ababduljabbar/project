@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','All Brand')
+@section('title','All Category')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -25,6 +25,12 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
+                  {{-- Success Message Show --}}
+                  @if ($message = Session::get('success'))
+                  <div class="alert alert-success">
+                      {{ $message }}
+                  </div>
+                 @endif
           <h3 class="card-title">Category</h3>
           <a class="btn btn-success btn-sm float-right" href="{{ route('category.create') }}">Create Category</a>
        
@@ -40,7 +46,7 @@
                         Category Name
                       </th>
                       <th >
-                          Photo
+                          Slug
                       </th>
                      
                       <th class="text-center">
@@ -52,44 +58,46 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <td>
-                          #
-                      </td>
-                      <td>
-                          <a>
-                              AdminLTE v3
-                          </a>
-                          <br/>
-                          <small>
-                              Created 01.01.2019
-                          </small>
-                      </td>
-                      <td>
-                          <ul class="list-inline">
-                              <li class="list-inline-item">
-                                  <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
-                              </li>
-                          </ul>
-                      </td>
-
-                      <td class="project-state">
-                          <span class="badge badge-success">Success</span>
-                      </td>
-                      <td class="project-actions">
+                @foreach ($categories as $category )
+                <tr>
+                  <td>
+                      {{ $category->id }}
+                  </td>
+                  <td>
+                    {{ $category->name }}
                      
-                          <a class="btn btn-info btn-sm" href="#">
-                              <i class="fas fa-pencil-alt">
-                              </i>
-                              Edit
-                          </a>
-                          <a class="btn btn-danger btn-sm" href="#">
-                              <i class="fas fa-trash">
-                              </i>
-                              Delete
-                          </a>
-                      </td>
-                  </tr>
+                  </td>
+                  <td>
+                    {{ $category->slug }}
+                  </td>
+
+                  <td class="project-state">
+                    @if (  $category->status == "1" )
+                        <span class="badge badge-success">Active</span>
+                    @else
+                        <span class="badge badge-danger">Deactive</span>
+                    @endif
+               
+                  </td>
+                  <td class="project-actions">
+                 
+                    <a class="btn btn-info btn-sm" href="{{ route('category.update',$category->id) }}">
+                      <i class="fas fa-pencil-alt">
+                      </i>
+                      Edit
+                  </a>
+                  <a class="btn btn-danger btn-sm" href="{{ route('category.delete',$category->id) }}">
+                      <i class="fas fa-trash">
+                      </i>
+                      Delete
+                  </a>
+
+                  </td>
+              </tr>
+                @endforeach
+              
+ 
+           
               </tbody>
           </table>
         </div>

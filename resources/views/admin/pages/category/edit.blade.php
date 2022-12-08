@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','Edit Category')
+@section('title','Add Category')
 @section('content')
 <div class="content-wrapper">
  
@@ -18,23 +18,38 @@
                             {{ $message }}
                         </div>
                       @endif
-                    <form action="{{ route('brand.create') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('category.update',$category->id) }}" method="POST">
                       @csrf
                       <div class="form-group">
                         <label for="name">Category Name</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" value="{{ $category->name }}" id="name" class="form-control">
                         @error('name')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                       </div>
 
                       <div class="form-group">
-                        <label for="is_parent">is_parent</label>
-                        <select id="is_parent" name="is_parent" class="form-control custom-select">
-                          <option value="1">is_parent</option>
-                          <option value="active">category</option>
+                        <label for="parent_id">Parent Category</label>
+                        <select id="parent_id" name="parent_id" class="form-control custom-select">
+                          <option value="">is_parent</option>
+                          @if($categories)
+                             @foreach($categories as $category1)
+                                <?php $dash=''; ?>
+
+                                <option value="{{$category1->id}}" @if ($category->parent_id ==  '' )
+                                  {{ 'selected' }}
+
+                                @endif
+                                  
+                                  >{{$category1->name}}</option>
+
+                                @if(count($category1->subcategory))
+                                    @include('subCategoryList',['subcategories' => $category1->subcategory])
+                                @endif
+                             @endforeach
+                          @endif
                         </select>
-                        @error('status')
+                        @error('parent_id')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                       </div>
@@ -42,16 +57,19 @@
                       <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status" class="form-control custom-select">
-                          <option selected disabled>Select one</option>
-                          <option value="active">Active</option>
-                          <option value="deactive">Deactive</option>
+                           <option value="1" @if (  $category->status == "1")
+                                 {{ 'selected' }}
+                            @endif>Active</option>
+                          <option @if (  $category->status == "0")
+                            {{ 'selected' }}
+                          @endif value="0">Deactive</option>
                         </select>
                         @error('status')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                       </div>
              
-                      <input type="submit" class="btn btn-primary" value="Add Category">
+                      <input type="submit" class="btn btn-primary" value="Update Category">
                    </form>
               </div>
                   <!-- /.card-body -->

@@ -45,6 +45,8 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
    
         Route::get('/category', 'category')->name('admin.category');
         Route::match(['get', 'post'], '/category/create', 'create')->name('category.create');
+        Route::match(['get', 'post'], '/category/edit/{id}', 'update')->name('category.update');
+        Route::get('/category/delete/{id}', 'delete')->name('category.delete');
 
     });
 

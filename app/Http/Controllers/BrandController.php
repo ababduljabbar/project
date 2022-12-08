@@ -32,7 +32,7 @@ class BrandController extends Controller
                     $brand->name = $request->name;
                     $brand->slug = strtolower(str_replace(' ', '-', $request->name));
                     $brand->status = $request->status;
-                    // User Image Upload
+                    //  Image Upload
                     if ($request->file('photo')) {
 
                         $file = $request->file('photo');
