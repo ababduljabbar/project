@@ -1,20 +1,17 @@
 @extends('frontEnd.master')
-@section('title','Register Page Email Send')
+@section('title','Register')
 @section('content')
  
 <div class="register-box">
-    <div class="register-logo">
-      <a href="#"><b>Email Send Project</b></a>
-    </div>
-  
+
     <div class="card">
       <div class="card-body register-card-body">
         <p class="login-box-msg">Register a new membership</p>
   
-        <form action="{{ route('create.register') }}" method="POST">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
           <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control" placeholder="Full name">
+            <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Full name">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -26,7 +23,7 @@
           <span class="text-danger">{{ $message }}</span>
           @enderror
           <div class="input-group mt-3">
-            <input type="email" name="email" class="form-control" placeholder="Email">
+            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -37,17 +34,8 @@
           @error('email')
           <span class="text-danger">{{ $message }}</span>
           @enderror
-          <div class="input-group mt-3">
-            <input type="text" name="username" class="form-control" placeholder="User Name">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-user"></span>
-              </div>
-            </div>
-          </div>
-          @error('username')
-          <span class="text-danger">{{ $message }}</span>
-          @enderror
+          
+         
           <div class="input-group mt-3">
             <input type="password" name="password" class="form-control" placeholder="Password">
             <div class="input-group-append">
